@@ -1,12 +1,12 @@
 filesPath <- "C:/Users/admin/Desktop/coursera_data science/getting and cleaning data/week4/assignment_getting and cleaning data/data/UCI HAR Dataset"
-##setwd(filesPath)
+setwd(filesPath)
 
-##if(!file.exists("./data")){dir.create("./data")}
-##fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-##download.file(fileUrl,destfile="./data/Dataset.zip")
+if(!file.exists("./data")){dir.create("./data")}
+fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+download.file(fileUrl,destfile="./data/Dataset.zip")
 
 ###Unzip DataSet to /data directory
-##unzip(zipfile="./data/Dataset.zip",exdir="./data")
+unzip(zipfile="./data/Dataset.zip",exdir="./data")
 
 
 ###Load required packages
@@ -15,15 +15,15 @@ library(data.table)
 library(tidyr)
 
 
-# Read subject files
+# Read subject files and data is stored in data tables subjectTrainingData and subjectTestingData
 subjectTrainingData <- tbl_df(read.table(file.path(filesPath, "train", "subject_train.txt")))
 subjectTestingData  <- tbl_df(read.table(file.path(filesPath, "test" , "subject_test.txt" )))
 
-# Read activity files
+# Read activity files files  and data is stored in data tables activityTrainingData and activityTestingData
 activityTrainingData <- tbl_df(read.table(file.path(filesPath, "train", "Y_train.txt")))
 activityTestingData  <- tbl_df(read.table(file.path(filesPath, "test" , "Y_test.txt" )))
 
-#Read data files.
+#Read data files and data is stored in data tables trainingData and testingData
 trainingData <- tbl_df(read.table(file.path(filesPath, "train", "X_train.txt" )))
 testingData  <- tbl_df(read.table(file.path(filesPath, "test" , "X_test.txt" )))
 
@@ -53,12 +53,12 @@ combinedDataTable <- cbind(totaldataSubjct, combinedDataTable)
 
 ##  PART 2
 # Reading "features.txt" and extracting only the mean and standard deviation
-dataFeaturesMeanStd <- grep("mean\\(\\)|std\\(\\)",featuresData$featureName,value=TRUE)
+featuresMeanStdData <- grep("mean\\(\\)|std\\(\\)",featuresData$featureName,value=TRUE)
 
 # Taking only measurements for the mean and standard deviation and add "subject","activityNum"
 
-dataFeaturesMeanStd <- union(c("subject","activityNum"), dataFeaturesMeanStd)
-combinedDataTable<- subset(combinedDataTable,select=dataFeaturesMeanStd) 
+featuresMeanStdData <- union(c("subject","activityNum"), featuresMeanStdData)
+combinedDataTable<- subset(combinedDataTable,select=featuresMeanStdData) 
 
 
 ##  PART 3
